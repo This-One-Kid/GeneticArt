@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticArt", "GeneticArt\GeneticArt.csproj", "{CE273EFD-4F96-41E0-A7C0-9D54BC7009E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE273EFD-4F96-41E0-A7C0-9D54BC7009E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE273EFD-4F96-41E0-A7C0-9D54BC7009E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE273EFD-4F96-41E0-A7C0-9D54BC7009E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE273EFD-4F96-41E0-A7C0-9D54BC7009E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB90F60B-27B8-4DE4-832A-949BCD510E08}
+	EndGlobalSection
+EndGlobal
