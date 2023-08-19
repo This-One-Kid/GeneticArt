@@ -37,11 +37,11 @@ namespace GeneticArt
         {
             if (random.NextDouble() > TriangleArtConstants.mutateColorThreshold)
             {
-                Console.WriteLine($"mutates: {mutates++}");
+                //Console.WriteLine($"mutates: {mutates++}");
                 if (!modded)
                 {
-                    points = (PointF[])points.Clone();
-                    modded = true;
+                    //points = (PointF[])points.Clone();
+                    //modded = true;
                 }
                 if (random.NextDouble() > .5f)
                 {
@@ -83,7 +83,7 @@ namespace GeneticArt
                 brush = new SolidBrush(color);
             }
         }
-        public Triangle Copy() {  Console.WriteLine($"copies : {copies++}"); return new Triangle(points, color, brush); }//TODO: look at this next week 
+        public Triangle Copy() => new Triangle(points[0], points[1], points[2], color, new SolidBrush(color)); //TODO: look at this next week 
 
         public static Triangle RandomTriangle(Random rand) => new Triangle(new PointF(rand.Next(width), rand.Next(GeneticArtTrainer.height)), new PointF(rand.Next(GeneticArtTrainer.width), rand.Next(GeneticArtTrainer.height)), new PointF(rand.Next(GeneticArtTrainer.width), rand.Next(GeneticArtTrainer.height)), Color.FromArgb(rand.Next(TriangleArtConstants.minA, TriangleArtConstants.maxA), rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256)));
         

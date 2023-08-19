@@ -42,7 +42,7 @@ namespace GeneticArt
                 inputImage.Image = new Bitmap(openFileDialog1.FileName);
                 if (artTrainer == null)
                 {
-                    artTrainer = new GeneticArtTrainer((Bitmap)inputImage.Image, 75, 50);
+                    artTrainer = new GeneticArtTrainer((Bitmap)inputImage.Image, 100, 50);
                 }
                 else
                 {
