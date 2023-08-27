@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,49 +10,79 @@ using static GeneticArt.GeneticArtTrainer;
 
 namespace GeneticArt
 {
-    
+
     public struct Triangle
     {
         static int mutates = 0;
         static int copies = 0;
         bool modded = false;
-
+        bool cloneArray;
+        Queue<string> operationLog;
         Color color;
-        PointF[] points;
+        PointF[] points; //a fixed array would be nice here, but sadly this is not a primitive type
         SolidBrush brush;
-        public Triangle(PointF[] points, Color color, SolidBrush myBrush)
+        public Triangle(PointF[] points, Color color, SolidBrush myBrush, bool cloneArray, Queue<string>? operationLog = null)
         {
+            this.operationLog = operationLog ?? new();
             this.points = points;
             this.color = color;
-            brush = myBrush;                
+            brush = myBrush;
+            this.cloneArray = cloneArray;
         }
-        public Triangle(PointF point0, PointF point1, PointF point2, Color color, SolidBrush myBrush)
-            : this(new PointF[] { point0, point1, point2 }, color, myBrush) { }
-        public Triangle(PointF point0, PointF point1, PointF point2, Color color)
-            : this(point0, point1, point2, color, new SolidBrush(color)) { }
-        
+
+        public override readonly bool Equals(object? obj)
+        {
+            var other = (Triangle)obj;
+            bool good = color == other.color;
+            good &= brush.Color == other.brush.Color;
+            good &= points.SequenceEqual(other.points);
+
+            if (!good)
+            {
+                ;
+            }
+            return good;
+        }
+
+        public Triangle(PointF point0, PointF point1, PointF point2, Color color, SolidBrush myBrush, bool cloneArray)
+            : this(new PointF[] { point0, point1, point2 }, color, myBrush, cloneArray) { }
+        public Triangle(PointF point0, PointF point1, PointF point2, Color color, bool cloneArray)
+            : this(point0, point1, point2, color, new SolidBrush(color), cloneArray) { }
+
         public void DrawTriangle(Graphics g, float xCoefficient, float yCoefficient)
         {
             g.FillPolygon(brush, points);
         }
         public void Mutate(Random random)
         {
-            if (random.NextDouble() > TriangleArtConstants.mutateColorThreshold)
+            double randResult;
+            if ((randResult = random.NextDouble()) > TriangleArtConstants.mutateColorThreshold)
             {
                 //Console.WriteLine($"mutates: {mutates++}");
-                if (!modded)
+                if (!modded && cloneArray)
                 {
-                    //points = (PointF[])points.Clone();
-                    //modded = true;
+                    points = (PointF[])points.Clone();
+                    modded = true;
                 }
+
+                int chosenIndex = random.Next(3);
+
+                string changedVal = chosenIndex.ToString();
+
+
                 if (random.NextDouble() > .5f)
                 {
-                    points[random.Next(3)].X = random.Next(GeneticArtTrainer.width);
+                    changedVal += $": {points[chosenIndex]}.X => ";
+                    points[chosenIndex].X = random.Next(GeneticArtTrainer.width);
+                    changedVal += points[chosenIndex].X;
                 }
                 else
                 {
-                    points[random.Next(3)].Y = random.Next(GeneticArtTrainer.height);
+                    changedVal += $": {points[chosenIndex]}.Y => ";
+                    points[chosenIndex].Y = random.Next(GeneticArtTrainer.height);
+                    changedVal += points[chosenIndex].Y;
                 }
+                operationLog.Enqueue($"{randResult} < {TriangleArtConstants.mutateColorThreshold} : {changedVal}");
             }
             else
             {
@@ -79,13 +111,14 @@ namespace GeneticArt
                     b += random.Next(-TriangleArtConstants.maxModdedAmt, TriangleArtConstants.maxModdedAmt);
                     b = Math.Clamp(b, 0, 255);
                 }
-                color = Color.FromArgb(a, r, g, b);
+                operationLog.Enqueue($"{randResult} > {TriangleArtConstants.mutateColorThreshold} : Color, {color} => {color = Color.FromArgb(a, r, g, b)}");
+                //color = Color.FromArgb(a, r, g, b);
                 brush = new SolidBrush(color);
             }
         }
-        public Triangle Copy() => new Triangle(points[0], points[1], points[2], color, new SolidBrush(color)); //TODO: look at this next week 
+        public Triangle Copy() => new Triangle(new PointF[] { points[0], points[1], points[2] }, color, new SolidBrush(color), cloneArray, new (operationLog)); //TODO: look at this next week 
 
-        public static Triangle RandomTriangle(Random rand) => new Triangle(new PointF(rand.Next(width), rand.Next(GeneticArtTrainer.height)), new PointF(rand.Next(GeneticArtTrainer.width), rand.Next(GeneticArtTrainer.height)), new PointF(rand.Next(GeneticArtTrainer.width), rand.Next(GeneticArtTrainer.height)), Color.FromArgb(rand.Next(TriangleArtConstants.minA, TriangleArtConstants.maxA), rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256)));
+        public static Triangle RandomTriangle(Random rand, bool cloneArray) => new Triangle(new PointF(rand.Next(width), rand.Next(GeneticArtTrainer.height)), new PointF(rand.Next(GeneticArtTrainer.width), rand.Next(GeneticArtTrainer.height)), new PointF(rand.Next(GeneticArtTrainer.width), rand.Next(GeneticArtTrainer.height)), Color.FromArgb(rand.Next(TriangleArtConstants.minA, TriangleArtConstants.maxA), rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256)), cloneArray);
         
     }
 }

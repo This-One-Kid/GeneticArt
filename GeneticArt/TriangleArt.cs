@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,34 @@ namespace GeneticArt
         public Bitmap originalImage;
         public Bitmap curDrawnImage;
         private Graphics mapGFX;
-        public TriangleArt(int maxTris, Bitmap original)
+        bool cloneArrays;
+
+        public TriangleComparer triangleComparer { get; private set; } = new();
+
+        public TriangleArt(int maxTris, Bitmap original, bool cloneArrays)
         {
             maxTriangles = maxTris;
             triangles = new List<Triangle>(maxTriangles);
             originalImage = original;
+            this.cloneArrays = cloneArrays;
         }
+
+        public override bool Equals(object other)
+        {
+            var coolerOther = (TriangleArt)other;
+
+            if (coolerOther.triangles.Count != triangles.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < coolerOther.triangles.Count; i++)
+            {
+                if (!triangles[i].Equals(coolerOther.triangles[i])) return false;
+            }
+            return true;
+        }
+
         public void Mutate(Random rand)
         {
             double randNum = rand.NextDouble();
@@ -47,7 +70,7 @@ namespace GeneticArt
             {
                 triangles.RemoveAt(0);
             }
-            triangles.Add(Triangle.RandomTriangle(rand));
+            triangles.Add(Triangle.RandomTriangle(rand, cloneArrays));
         }
         public Bitmap DrawImage(int width, int height)
         {
@@ -60,7 +83,7 @@ namespace GeneticArt
             {
                 mapGFX.Clear(Color.Transparent);
             }
-            for (var i = 0;i < triangles.Count;i ++)
+            for (var i = 0; i < triangles.Count; i++)
             {
                 triangles[i].DrawTriangle(mapGFX, width, height);
             }
@@ -80,7 +103,7 @@ namespace GeneticArt
             System.Runtime.InteropServices.Marshal.Copy(originalPtr, originalRGBVals, 0, bytes);
 
             double error = 0;
-            for (var i = 0;i < bytes;i ++)
+            for (var i = 0; i < bytes; i++)
             {
                 error += Math.Pow(curImageRGBVals[i] - originalRGBVals[i], 2);
             }
@@ -91,9 +114,22 @@ namespace GeneticArt
         public void CopyTo(TriangleArt tri)
         {
             tri.triangles.Clear();
-            for (var i = 0;i < triangles.Count;i ++)
+            for (var i = 0; i < triangles.Count; i++)
             {
                 tri.triangles.Add(triangles[i].Copy());
+            }
+        }
+
+        public class TriangleComparer : IEqualityComparer<Triangle>
+        {
+            public bool Equals(Triangle x, Triangle y)
+            {
+                return x.Equals(y);
+            }
+
+            public int GetHashCode([DisallowNull] Triangle obj)
+            {
+                throw new NotImplementedException();
             }
         }
     }

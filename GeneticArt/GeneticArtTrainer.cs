@@ -13,16 +13,22 @@ namespace GeneticArt
         double bestError = double.MaxValue;
         public static int width;
         public static int height;
-        public GeneticArtTrainer(Bitmap originalImage, int maxTriangles, int populationSize)
+        public GeneticArtTrainer(Bitmap originalImage, int maxTriangles, int populationSize, bool cloneArrays)
         {
             population = new TriangleArt[populationSize];
             width = originalImage.Width;
             height = originalImage.Height;
             for (var i = 0; i < populationSize; i++)
             {
-                population[i] = new TriangleArt(maxTriangles, originalImage);
+                population[i] = new TriangleArt(maxTriangles, originalImage, cloneArrays);
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            return population.SequenceEqual(((GeneticArtTrainer)obj).population);
+        }
+
         public (double, Bitmap) Train(Random rand)
         {
             (int ind, double error, Bitmap bitmap) lowestErrorInd = GetBestImage();
