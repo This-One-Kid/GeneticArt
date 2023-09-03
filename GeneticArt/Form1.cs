@@ -6,7 +6,7 @@ namespace GeneticArt
     public partial class Form1 : Form
     {
         public static Random rand = new Random(5);
-        public static Random cloneRand = new Random(5);
+        //public static Random cloneRand = new Random(5);
 
         public static GeneticArtTrainer artTrainer = null;
         public static bool autoTrain = false;
@@ -47,10 +47,10 @@ namespace GeneticArt
                 inputImage.Image = new Bitmap(openFileDialog1.FileName);
                 if (artTrainer == null)
                 {
-                    const int maxTriangles = 100;
+                    const int maxTriangles = 150;
                     const int popSize = 50;
                     artTrainer = new GeneticArtTrainer((Bitmap)inputImage.Image, maxTriangles, popSize, false);
-                    clonetrainer = new GeneticArtTrainer((Bitmap)inputImage.Image, maxTriangles, popSize, true);
+                    //clonetrainer = new GeneticArtTrainer((Bitmap)inputImage.Image, maxTriangles, popSize, true);
                 }
                 else
                 {
@@ -76,10 +76,23 @@ namespace GeneticArt
         {
             if (autoTrain)
             {
-                var img = artTrainer.Train(rand);
+                //Action bob = () => { };
+                //int a = 0;
+                //List<int> b = new List<int>()
+                //{ 0 };
+
+                Action<int> act = (a) => { var img = artTrainer.Train(rand); AIPic1.Image = img.Item2; };
+
+                //Parallel.For(0, 10, act);//TODO: Modify bitmap inside for
+                var img = artTrainer.Train(rand);//Parallel.For(0, 10, artTrainer.Train(rand));
+                for (var i = 0; i < 10; i++)
+                {
+                    img = artTrainer.Train(rand);
+                }//capture train
                 AIPic1.Image = img.Item2;
-                AIPic2.Image = clonetrainer.Train(cloneRand).Item2;
-                artTrainer.Equals(clonetrainer);
+                //AIPic2.Image = clonetrainer.Train(cloneRand).Item2;
+                //var a = artTrainer.Equals(clonetrainer);
+                ;
                 
             }
         }

@@ -9,7 +9,9 @@ namespace GeneticArt
 {
     public class GeneticArtTrainer
     {
-        TriangleArt[] population;
+        public static GeneticArtTrainer Current;
+        public object monke;
+        public TriangleArt[] population;
         double bestError = double.MaxValue;
         public static int width;
         public static int height;
@@ -31,7 +33,9 @@ namespace GeneticArt
 
         public (double, Bitmap) Train(Random rand)
         {
+            Current = this;
             (int ind, double error, Bitmap bitmap) lowestErrorInd = GetBestImage();
+            
             // double lowestError = lowestErrorInd.error;
             for (var i = 0; i < population.Length; i++)
             {

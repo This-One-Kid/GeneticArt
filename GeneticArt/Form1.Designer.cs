@@ -28,96 +28,86 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            AIPic1 = new PictureBox();
-            inputImage = new PictureBox();
-            openFileDialog1 = new OpenFileDialog();
-            button1 = new Button();
-            trainButton = new Button();
-            autoTimer = new System.Windows.Forms.Timer(components);
-            AIPic2 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)AIPic1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)AIPic2).BeginInit();
-            SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.AIPic1 = new System.Windows.Forms.PictureBox();
+            this.inputImage = new System.Windows.Forms.PictureBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
+            this.trainButton = new System.Windows.Forms.Button();
+            this.autoTimer = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.AIPic1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inputImage)).BeginInit();
+            this.SuspendLayout();
             // 
             // AIPic1
             // 
-            AIPic1.Location = new Point(242, 1);
-            AIPic1.Margin = new Padding(3, 4, 3, 4);
-            AIPic1.Name = "AIPic1";
-            AIPic1.Size = new Size(542, 460);
-            AIPic1.TabIndex = 1;
-            AIPic1.TabStop = false;
+            this.AIPic1.BackColor = System.Drawing.Color.Transparent;
+            this.AIPic1.Location = new System.Drawing.Point(660, 47);
+            this.AIPic1.Name = "AIPic1";
+            this.AIPic1.Size = new System.Drawing.Size(386, 239);
+            this.AIPic1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.AIPic1.TabIndex = 1;
+            this.AIPic1.TabStop = false;
             // 
             // inputImage
             // 
-            inputImage.Location = new Point(790, 1);
-            inputImage.Margin = new Padding(3, 4, 3, 4);
-            inputImage.Name = "inputImage";
-            inputImage.Size = new Size(480, 928);
-            inputImage.TabIndex = 2;
-            inputImage.TabStop = false;
+            this.inputImage.BackColor = System.Drawing.Color.Transparent;
+            this.inputImage.Location = new System.Drawing.Point(92, 12);
+            this.inputImage.Name = "inputImage";
+            this.inputImage.Size = new System.Drawing.Size(386, 239);
+            this.inputImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.inputImage.TabIndex = 2;
+            this.inputImage.TabStop = false;
             // 
             // openFileDialog1
             // 
-            openFileDialog1.FileName = "openFileDialog1";
-            openFileDialog1.FileOk += openFileDialog1_FileOk;
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // button1
             // 
-            button1.Location = new Point(26, 164);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(86, 31);
-            button1.TabIndex = 3;
-            button1.Text = "Load";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            this.button1.Location = new System.Drawing.Point(23, 123);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Load";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // trainButton
             // 
-            trainButton.Location = new Point(26, 203);
-            trainButton.Margin = new Padding(3, 4, 3, 4);
-            trainButton.Name = "trainButton";
-            trainButton.Size = new Size(86, 31);
-            trainButton.TabIndex = 4;
-            trainButton.Text = "Start";
-            trainButton.UseVisualStyleBackColor = true;
-            trainButton.Click += trainButton_Click;
+            this.trainButton.Location = new System.Drawing.Point(23, 152);
+            this.trainButton.Name = "trainButton";
+            this.trainButton.Size = new System.Drawing.Size(75, 23);
+            this.trainButton.TabIndex = 4;
+            this.trainButton.Text = "Start";
+            this.trainButton.UseVisualStyleBackColor = true;
+            this.trainButton.Click += new System.EventHandler(this.trainButton_Click);
             // 
             // autoTimer
             // 
-            autoTimer.Enabled = true;
-            autoTimer.Interval = 1;
-            autoTimer.Tick += autoTimer_Tick;
-            // 
-            // AIPic2
-            // 
-            AIPic2.Location = new Point(241, 468);
-            AIPic2.Name = "AIPic2";
-            AIPic2.Size = new Size(543, 461);
-            AIPic2.TabIndex = 5;
-            AIPic2.TabStop = false;
+            this.autoTimer.Enabled = true;
+            this.autoTimer.Interval = 1;
+            this.autoTimer.Tick += new System.EventHandler(this.autoTimer_Tick);
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1283, 945);
-            Controls.Add(AIPic2);
-            Controls.Add(trainButton);
-            Controls.Add(button1);
-            Controls.Add(inputImage);
-            Controls.Add(AIPic1);
-            Margin = new Padding(3, 4, 3, 4);
-            Name = "Form1";
-            Text = "Form1";
-            Load += Form1_Load;
-            ((System.ComponentModel.ISupportInitialize)AIPic1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)inputImage).EndInit();
-            ((System.ComponentModel.ISupportInitialize)AIPic2).EndInit();
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1123, 709);
+            this.Controls.Add(this.trainButton);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.inputImage);
+            this.Controls.Add(this.AIPic1);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.AIPic1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inputImage)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -127,6 +117,5 @@
         private Button button1;
         private Button trainButton;
         private System.Windows.Forms.Timer autoTimer;
-        private PictureBox AIPic2;
     }
 }

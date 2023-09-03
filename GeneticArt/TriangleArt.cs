@@ -10,7 +10,8 @@ namespace GeneticArt
     public class TriangleArt
     {
         public int maxTriangles;
-        public List<Triangle> triangles;
+        public Triangle[] triangles;
+        public int count = 0;
         public Bitmap originalImage;
         public Bitmap curDrawnImage;
         private Graphics mapGFX;
@@ -21,7 +22,7 @@ namespace GeneticArt
         public TriangleArt(int maxTris, Bitmap original, bool cloneArrays)
         {
             maxTriangles = maxTris;
-            triangles = new List<Triangle>(maxTriangles);
+            triangles = new Triangle[maxTriangles];
             originalImage = original;
             this.cloneArrays = cloneArrays;
         }
@@ -30,12 +31,9 @@ namespace GeneticArt
         {
             var coolerOther = (TriangleArt)other;
 
-            if (coolerOther.triangles.Count != triangles.Count)
-            {
-                return false;
-            }
+            if (count != coolerOther.count) return false;
 
-            for (int i = 0; i < coolerOther.triangles.Count; i++)
+            for (int i = 0; i < coolerOther.count; i++)
             {
                 if (!triangles[i].Equals(coolerOther.triangles[i])) return false;
             }
@@ -53,24 +51,32 @@ namespace GeneticArt
             {
                 RemoveTriangle(rand);
             }
-            else if (triangles.Count > 0)
+            else if (count > 0)
             {
-                triangles[rand.Next(triangles.Count)].Mutate(rand);
+                triangles[rand.Next(count)].Mutate(rand);
             }
         }
         public void RemoveTriangle(Random rand)
         {
-            if (triangles.Count == 0) return;
+            if (count == 0) return;
 
-            triangles.RemoveAt(rand.Next(triangles.Count));
+            int indToRem = rand.Next(count);
+            for (var i = indToRem;i < count;i ++)
+            {
+                triangles[i] = triangles[i + 1]; 
+            }
+            count--;
         }
         public void AddTriangle(Random rand)
         {
-            while (triangles.Count >= maxTriangles)
+            while (count >= maxTriangles)
             {
-                triangles.RemoveAt(0);
+                for (var i = 0; i < count; i++)
+                {
+                    triangles[i] = triangles[i + 1];
+                }
             }
-            triangles.Add(Triangle.RandomTriangle(rand, cloneArrays));
+            triangles[count++] = Triangle.RandomTriangle(rand, cloneArrays);
         }
         public Bitmap DrawImage(int width, int height)
         {
@@ -83,7 +89,7 @@ namespace GeneticArt
             {
                 mapGFX.Clear(Color.Transparent);
             }
-            for (var i = 0; i < triangles.Count; i++)
+            for (var i = 0; i < count; i++)
             {
                 triangles[i].DrawTriangle(mapGFX, width, height);
             }
@@ -113,10 +119,9 @@ namespace GeneticArt
         }
         public void CopyTo(TriangleArt tri)
         {
-            tri.triangles.Clear();
-            for (var i = 0; i < triangles.Count; i++)
+            for (var i = 0; i < count; i++)
             {
-                tri.triangles.Add(triangles[i].Copy());
+                tri.triangles[i] = triangles[i].Copy();
             }
         }
 
